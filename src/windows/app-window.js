@@ -15,33 +15,47 @@ const addTopBar = (dom) => {
     return topBar;
 };
 
-const onVerticalEdge = (dom) => {
-    let isOnEdge, resizable = false;
-    let lastX, lastY = 0;
-    dom.addEventListener("mousemove", (e) => {
-        if(!isOnEdge && Math.abs(e.clientX - dom.offsetLeft) < 8){
+const closeToVerticalEdgeCursor = (element, edgeX, eps = 8) => {
+    element.addEventListener("mousemove", (e) => {
+        if(!isOnEdge && Math.abs(e.clientX - element.offsetLeft) < eps){
             isOnEdge = true;
             document.body.style.cursor = "e-resize";
         }
-        else if(isOnEdge && Math.abs(e.clientX - dom.offsetLeft) > 8 && !resizable){
+        else if(isOnEdge && Math.abs(e.clientX - edgeX) > eps && !resizable){
             isOnEdge = false;
             document.body.style.cursor = "default";
         }
     });
+}
+
+const onVerticalEdge = (dom) => {
+    let state = {isOnEdge: false, resizable: false, lastX: undefined, lastY: undefined}
+    // let lastX, lastY = 0;
+    dom.addEventListener("mousemove", (e) => {
+        if(!state.isOnEdge && Math.abs(e.clientX - dom.offsetLeft) < 8){
+            state.isOnEdge = true;
+            document.body.style.cursor = "e-resize";
+        }
+        else if(state.isOnEdge && Math.abs(e.clientX - dom.offsetLeft) > 8 && !state.resizable){
+            state.isOnEdge = false;
+            document.body.style.cursor = "default";
+        }
+    });
+    // (() => {closeToVerticalEdgeCursor(dom, dom.offsetLeft, 8)})();
     document.addEventListener("mousemove", (e) => {
-        if(isOnEdge && resizable){
+        if(state.isOnEdge && state.resizable){
             dom.style.left = `${e.clientX}px`;
-            dom.style.width = `${parseInt(dom.style.width) - e.clientX + lastX}px`
+            dom.style.width = `${parseInt(dom.style.width) - e.clientX + state.lastX}px`
             console.log(e.clientX - dom.offsetLeft);
-            lastX = e.clientX;
+            state.lastX = e.clientX;
         }
     });
-    dom.addEventListener("mousedown", (e) => {if(isOnEdge) resizable = true; lastX = e.clientX});
-    document.addEventListener("mouseup", (e) => {if(resizable) resizable = false});
+    dom.addEventListener("mousedown", (e) => {if(state.isOnEdge) state.resizable = true; state.lastX = e.clientX});
+    document.addEventListener("mouseup", (e) => {if(state.resizable) state.resizable = false});
     dom.addEventListener("mouseleave", (e) => {
-        if(isOnEdge && !resizable){
+        if(state.isOnEdge && !state.resizable){
             document.body.style.cursor = "default";
-            isOnEdge = false;
+            state.isOnEdge = false;
         }
     });
 }
