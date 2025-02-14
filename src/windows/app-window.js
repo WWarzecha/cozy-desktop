@@ -1,5 +1,6 @@
 import "./app-window.css"
 
+
 const addWindowDOM = (width = 200, height = 150) => {
     const dom = document.createElement("div");
     dom.classList.add("app-window");
@@ -15,80 +16,128 @@ const addTopBar = (dom) => {
     return topBar;
 };
 
-const closeToVerticalEdgeCursor = (element, edgeX, eps = 8) => {
-    element.addEventListener("mousemove", (e) => {
-        if(!isOnEdge && Math.abs(e.clientX - element.offsetLeft) < eps){
-            isOnEdge = true;
-            document.body.style.cursor = "e-resize";
-        }
-        else if(isOnEdge && Math.abs(e.clientX - edgeX) > eps && !resizable){
-            isOnEdge = false;
-            document.body.style.cursor = "default";
-        }
-    });
-}
+const makeDraggable = (dom, activationElement) => {
+    const state = {offsetX: 0, offsetY: 0, isDragged: false, draggingBlock: false};
 
-const onVerticalEdge = (dom) => {
-    let state = {isOnEdge: false, resizable: false, lastX: undefined, lastY: undefined}
-    // let lastX, lastY = 0;
-    dom.addEventListener("mousemove", (e) => {
-        if(!state.isOnEdge && Math.abs(e.clientX - dom.offsetLeft) < 8){
-            state.isOnEdge = true;
-            document.body.style.cursor = "e-resize";
-        }
-        else if(state.isOnEdge && Math.abs(e.clientX - dom.offsetLeft) > 8 && !state.resizable){
-            state.isOnEdge = false;
-            document.body.style.cursor = "default";
+    activationElement.addEventListener("mousedown", (e) => {
+        state.isDragged = true;
+        state.offsetX = e.clientX - dom.offsetLeft;
+        state.offsetY = e.clientY - dom.offsetTop;
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (!state.draggingBlock && state.isDragged) {
+            dom.style.left = `${e.clientX - state.offsetX}px`;
+            dom.style.top = `${e.clientY - state.offsetY}px`;
         }
     });
-    // (() => {closeToVerticalEdgeCursor(dom, dom.offsetLeft, 8)})();
+
+    document.addEventListener("mouseup", () => {
+        state.isDragged = false;
+    });
+
+    const block = () => state.draggingBlock = true;
+    const unblock = () => state.draggingBlock = false;
+    return {block, unblock};
+};
+
+const makeResizable = (dom, eps = 8) => {
+    const state = {isXResized: false, isYResized: false, topEdge: false, leftEdge: false, lastX: undefined,
+         lastY: undefined, isResized: false, resizeBlock: false, dragging_controller: undefined};
+    let closeVertical, closeHorizontal;
+    // change cursor
     document.addEventListener("mousemove", (e) => {
-        if(state.isOnEdge && state.resizable){
-            dom.style.left = `${e.clientX}px`;
-            dom.style.width = `${parseInt(dom.style.width) - e.clientX + state.lastX}px`
-            console.log(e.clientX - dom.offsetLeft);
+        if(!state.resizeBlock){
+            if(Math.abs(e.clientX - dom.offsetLeft) < eps){
+                closeVertical = true;
+                state.leftEdge = true;
+            }
+            else if(Math.abs(e.clientX - dom.offsetLeft - parseInt(dom.style.width)) < eps){
+                closeVertical = true;
+                state.leftEdge = false;
+            }
+            else{
+                closeVertical = false;
+            }
+            if(Math.abs(e.clientY - dom.offsetTop) < 8){
+                closeHorizontal = true;
+                state.topEdge = true;
+            }
+            else if(Math.abs(e.clientY - dom.offsetTop - parseInt(dom.style.height)) < 8){
+                closeHorizontal = true;
+                state.topEdge = false;
+            }
+            else{
+                closeHorizontal = false;
+            }
+            dom.style.cursor = closeVertical && closeHorizontal && (!state.topEdge && state.leftEdge || state.topEdge && !state.leftEdge) ? "nesw-resize" :
+             closeVertical && closeHorizontal ? "nwse-resize" :
+             closeVertical ? "ew-resize" :
+             closeHorizontal ? "ns-resize" :
+             "default";
+        }
+    });
+    dom.addEventListener("mousedown", (e) => {
+        if(closeVertical){
+            state.isXResized = true;
             state.lastX = e.clientX;
         }
+        if(closeHorizontal){
+            state.isYResized = true;
+            state.lastY = e.clientY;
+        }
+        if(state.isXResized || state.isYResized) state.dragging_controller.block();
     });
-    dom.addEventListener("mousedown", (e) => {if(state.isOnEdge) state.resizable = true; state.lastX = e.clientX});
-    document.addEventListener("mouseup", (e) => {if(state.resizable) state.resizable = false});
-    dom.addEventListener("mouseleave", (e) => {
-        if(state.isOnEdge && !state.resizable){
-            document.body.style.cursor = "default";
-            state.isOnEdge = false;
+    document.addEventListener("mouseup", () => {
+        state.isXResized = false;
+        state.isYResized = false;
+        state.dragging_controller.unblock();
+    });
+    document.body.addEventListener("mousemove", (e) => {
+        if(!state.resizeBlock){
+            if(state.isXResized){
+                let x_change = e.clientX - state.lastX;
+                let width = parseInt(dom.style.width);
+                if(state.leftEdge){
+                    dom.style.left = `${e.clientX}px`;
+                    dom.style.width = `${width - x_change}px`
+                }
+                else{
+                    dom.style.width = `${width + x_change}px`
+                }
+                state.lastX = e.clientX;
+            }
+            if(state.isYResized){
+                let y_change = e.clientY - state.lastY;
+                let height = parseInt(dom.style.height);
+                if(state.topEdge){
+                    dom.style.top = `${e.clientY}px`;
+                    dom.style.height = `${height - y_change}px`
+                }
+                else{
+                    dom.style.height = `${height + y_change}px`
+                }
+                state.lastY = e.clientY;
+            }
         }
     });
+    const block = () => state.resizeBlock = true;
+    const unblock = () => state.resizeBlock = false;
+    const add_dragging_controller = (controller) => state.dragging_controller = controller;
+    return {block, unblock, add_dragging_controller};
 }
+
+
 
 const AppWindow = class {
     constructor(width, height) {
         this.dom = addWindowDOM(width, height)
         this.id = Symbol();
         this.topBar = addTopBar(this.dom);
-        this.isDragged = false;
-        this.#makeDraggable();
-        onVerticalEdge(this.dom);
+        this.dragging_controller = makeDraggable(this.dom, this.topBar);
+        this.resize_controller = makeResizable(this.dom);
+        this.resize_controller.add_dragging_controller(this.dragging_controller);
     };
-    #makeDraggable() {
-        let offsetX, offsetY, isDragging = false;
-
-        this.topBar.addEventListener("mousedown", (e) => {
-            isDragging = true;
-            offsetX = e.clientX - this.dom.offsetLeft;
-            offsetY = e.clientY - this.dom.offsetTop;
-        });
-
-        document.addEventListener("mousemove", (e) => {
-            if (isDragging) {
-                this.dom.style.left = `${e.clientX - offsetX}px`;
-                this.dom.style.top = `${e.clientY - offsetY}px`;
-            }
-        });
-
-        document.addEventListener("mouseup", () => {
-            isDragging = false;
-        });
-    }
 };
 
 
