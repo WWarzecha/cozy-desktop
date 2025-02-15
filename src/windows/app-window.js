@@ -4,6 +4,7 @@ import makeDraggable from "./window-properties/make-draggable.js";
 import topBar from "./top-bar/top-bar.js";
 import visibilityController from "./visibility-controller/visibility-controller.js";
 
+
 const addWindowDOM = (width = 200, height = 150) => {
     const dom = document.createElement("div");
     dom.classList.add("app-window");
@@ -11,6 +12,7 @@ const addWindowDOM = (width = 200, height = 150) => {
     dom.style.height = `${height}px`;
     return dom;
 };
+
 
 const AppWindow = class {
     constructor(width, height, icon_url = undefined) {
