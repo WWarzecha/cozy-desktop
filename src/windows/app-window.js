@@ -19,11 +19,12 @@ const AppWindow = class {
         this.icon = require("../img/anchor.svg");
         // this.dom.style.backgroundImage = `url(${this.icon})`;
         this.topBar = topBar(this.icon);
-        this.dom.appendChild(this.topBar);
+        this.dom.appendChild(this.topBar.dom);
         this.blockingState = {resizeBlock: false, draggingBlock: false};
-        makeDraggable(this.dom, this.topBar, this.blockingState);
+        makeDraggable(this.dom, this.topBar.dom, this.blockingState);
         makeResizable(this.dom, this.blockingState);
         this.visibilityController = visibilityController(this.dom);
+        this.topBar.addMinimizeFunctionality(this.visibilityController);
     };
 };
 
