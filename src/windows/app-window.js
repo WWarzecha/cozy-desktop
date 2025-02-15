@@ -9,9 +9,18 @@ const addWindowDOM = (width = 200, height = 150) => {
     return dom;
 };
 
-const addTopBar = (dom) => {
+const addTopBar = (dom, icon) => {
     const topBar = document.createElement("div");
     topBar.classList.add("app-window-top-bar");
+    const appIcon = document.createElement("img");
+    appIcon.src = icon;
+    topBar.appendChild(appIcon);
+
+    const xIcon = document.createElement("img");
+    xIcon.classList.add("x-btn");
+    setTimeout(() => xIcon.src = require("../img/x.svg"), 0);
+    topBar.appendChild(xIcon);
+
     dom.appendChild(topBar);
     return topBar;
 };
@@ -127,16 +136,17 @@ const makeResizable = (dom, eps = 8) => {
     return {block, unblock, add_dragging_controller};
 }
 
-
-
 const AppWindow = class {
-    constructor(width, height) {
+    constructor(width, height, icon_url = undefined) {
         this.dom = addWindowDOM(width, height)
         this.id = Symbol();
-        this.topBar = addTopBar(this.dom);
+        this.icon = require("../img/anchor.svg");
+        // this.dom.style.backgroundImage = `url(${this.icon})`;
+        this.topBar = addTopBar(this.dom, this.icon);
         this.dragging_controller = makeDraggable(this.dom, this.topBar);
         this.resize_controller = makeResizable(this.dom);
         this.resize_controller.add_dragging_controller(this.dragging_controller);
+        
     };
 };
 
