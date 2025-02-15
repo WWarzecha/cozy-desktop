@@ -6,5 +6,17 @@ import AppWindow from "./windows/app-window";
 wallpaperLoader.load()
 const app = new AppWindow();
 document.body.appendChild(app.dom);
-const app2 = new AppWindow();
-document.body.appendChild(app2.dom);
+// let visibilityController = app.visibilityController;
+// const btn1 = document.createElement("button");
+// const btn2 = document.createElement("button");
+// btn1.onclick = () => visibilityController.makeVisible();
+// btn2.onclick = () => {
+//     visibilityController.makeInvisible();
+//     console.log("Dissapearasd");
+// }
+// document.body.appendChild(btn1);
+// document.body.appendChild(btn2);
+
+
+// const app2 = new AppWindow();
+// document.body.appendChild(app2.dom);
