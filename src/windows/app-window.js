@@ -13,10 +13,10 @@ const addWindowDOM = (width = 200, height = 150) => {
 };
 
 const AppWindow = class {
-    constructor(appManager, width, height, icon_url = undefined) {
+    constructor(icon, appManager, width, height) {
         this.dom = addWindowDOM(width, height)
         this.id = Symbol();
-        this.icon = require("../img/anchor.svg");
+        this.icon = icon;
         this.topBar = topBar(this.icon);
         this.dom.appendChild(this.topBar.dom);
         this.blockingState = {resizeBlock: false, draggingBlock: false};

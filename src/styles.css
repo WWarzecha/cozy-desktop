@@ -11,4 +11,8 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    display: grid;
+    grid-auto-rows: 6rem;
+    grid-auto-columns: 5rem;
+    grid-gap: 0.5rem;
 }
