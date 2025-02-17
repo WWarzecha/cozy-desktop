@@ -12,12 +12,3 @@ body {
     background-size: cover;
     position: relative;
 }
-
-#toolbar {
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-    height: 2rem;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 2147483647;
-}

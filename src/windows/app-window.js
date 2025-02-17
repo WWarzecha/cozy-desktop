@@ -13,7 +13,7 @@ const addWindowDOM = (width = 200, height = 150) => {
 };
 
 const AppWindow = class {
-    constructor(width, height, appManager, icon_url = undefined) {
+    constructor(appManager, width, height, icon_url = undefined) {
         this.dom = addWindowDOM(width, height)
         this.id = Symbol();
         this.icon = require("../img/anchor.svg");
@@ -24,6 +24,7 @@ const AppWindow = class {
         makeResizable(this.dom, this.blockingState);
         this.visibilityController = visibilityController(this.dom);
         this.topBar.addMinimizeFunctionality(this.visibilityController.makeInvisible);
+        this.topBar.addClosingFunctionality(() => appManager.closeApp(this.id));
     };
     makeVisible = () => this.visibilityController.makeVisible();
     makeInvisible = () => this.visibilityController.makeInvisible();

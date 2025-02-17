@@ -1,0 +1,18 @@
+
+#toolbar {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    height: 2rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2147483647;
+}
+
+#toolbar > img {
+    filter: invert(100%) sepia(8%) saturate(7500%) hue-rotate(268deg) brightness(110%) contrast(107%);
+    height: 100%;
+}
+
+#toolbar > img:hover {
+    cursor: pointer;
+}

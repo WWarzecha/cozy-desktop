@@ -26,8 +26,9 @@ const topBar = (icon) => {
     topBar.appendChild(rightSideIcons);
 
     const addMinimizeFunctionality = (makeInvisible) => minimizeIcon.onclick = () => makeInvisible();
+    const addClosingFunctionality = (closeFunction) => closeIcon.onclick = () => closeFunction();
 
-    return {dom: topBar, addMinimizeFunctionality};
+    return {dom: topBar, addMinimizeFunctionality, addClosingFunctionality};
 };
 
 export default topBar;

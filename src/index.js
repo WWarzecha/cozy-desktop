@@ -5,10 +5,12 @@ import AppWindow from "./windows/app-window";
 import appManager from "./app-manager/app-manager";
 
 wallpaperLoader.load()
-const app = new AppWindow();
-document.body.appendChild(app.dom);
+const app = new AppWindow(appManager);
+
 appManager.addApp(app);
-appManager.minimizeApp(app.id);
+
+// tb.addApp(app.id);
+// appManager.minimizeApp(app.id);
 // let visibilityController = app.visibilityController;
 // const btn1 = document.createElement("button");
 // const btn2 = document.createElement("button");
