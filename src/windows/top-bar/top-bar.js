@@ -25,7 +25,7 @@ const topBar = (icon) => {
 
     topBar.appendChild(rightSideIcons);
 
-    const addMinimizeFunctionality = (visibilityController) => minimizeIcon.onclick = () => visibilityController.makeInvisible();
+    const addMinimizeFunctionality = (makeInvisible) => minimizeIcon.onclick = () => makeInvisible();
 
     return {dom: topBar, addMinimizeFunctionality};
 };

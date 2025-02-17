@@ -2,10 +2,13 @@ import "./styles.css";
 import "../node_modules/modern-normalize/modern-normalize.css";
 import wallpaperLoader from "./wallpaper-loader";
 import AppWindow from "./windows/app-window";
+import appManager from "./app-manager/app-manager";
 
 wallpaperLoader.load()
 const app = new AppWindow();
 document.body.appendChild(app.dom);
+appManager.addApp(app);
+appManager.minimizeApp(app.id);
 // let visibilityController = app.visibilityController;
 // const btn1 = document.createElement("button");
 // const btn2 = document.createElement("button");
