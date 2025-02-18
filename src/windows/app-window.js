@@ -3,6 +3,7 @@ import makeResizable from "./window-properties/make-resizable.js";
 import makeDraggable from "./window-properties/make-draggable.js";
 import topBar from "./top-bar/top-bar.js";
 import visibilityController from "./visibility-controller/visibility-controller.js";
+import zIndexManager from "./z-index-manager.js";
 
 const addWindowDOM = (width = 200, height = 150) => {
     const dom = document.createElement("div");
@@ -25,6 +26,8 @@ const AppWindow = class {
         this.visibilityController = visibilityController(this.dom);
         this.topBar.addMinimizeFunctionality(this.visibilityController.makeInvisible);
         this.topBar.addClosingFunctionality(() => appManager.closeApp(this.id));
+        this.dom.onclick = () => this.dom.style.zIndex = zIndexManager.getZIndex();
+        this.dom.style.zIndex = zIndexManager.getZIndex();
     };
     makeVisible = () => this.visibilityController.makeVisible();
     makeInvisible = () => this.visibilityController.makeInvisible();
