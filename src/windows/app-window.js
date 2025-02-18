@@ -39,6 +39,9 @@ const AppWindow = class {
         this.dom.style.zIndex = zIndexManager.getZIndex();
         toolbar.makeActive(this.id);
     };
+    insertContent = (content) => {
+        this.dom.appendChild(content);
+    };
 };
 
 
