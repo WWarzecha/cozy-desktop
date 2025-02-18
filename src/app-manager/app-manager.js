@@ -13,7 +13,7 @@ const appManager = (() =>{
     const closeApp = (id) => {
         toolbar.closeApp(id);
         document.body.removeChild(apps[id].dom);
-        apps[id] = undefined;
+        delete apps[id];
     };
     return {addApp, minimizeApp, showApp, getAppIconById, closeApp};
 })();

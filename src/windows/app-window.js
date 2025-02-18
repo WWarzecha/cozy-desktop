@@ -4,6 +4,7 @@ import makeDraggable from "./window-properties/make-draggable.js";
 import topBar from "./top-bar/top-bar.js";
 import visibilityController from "./visibility-controller/visibility-controller.js";
 import zIndexManager from "./z-index-manager.js";
+import toolbar from "../tool-bar/tool-bar.js";
 
 const addWindowDOM = (width = 200, height = 150) => {
     const dom = document.createElement("div");
@@ -26,11 +27,18 @@ const AppWindow = class {
         this.visibilityController = visibilityController(this.dom);
         this.topBar.addMinimizeFunctionality(this.visibilityController.makeInvisible);
         this.topBar.addClosingFunctionality(() => appManager.closeApp(this.id));
-        this.dom.onclick = () => this.dom.style.zIndex = zIndexManager.getZIndex();
-        this.dom.style.zIndex = zIndexManager.getZIndex();
+        this.dom.onclick = this.moveToTop;
+        this.moveToTop();
     };
-    makeVisible = () => this.visibilityController.makeVisible();
+    makeVisible = () => {
+        this.visibilityController.makeVisible();
+        this.moveToTop();
+    };
     makeInvisible = () => this.visibilityController.makeInvisible();
+    moveToTop = () => {
+        this.dom.style.zIndex = zIndexManager.getZIndex();
+        toolbar.makeActive(this.id);
+    };
 };
 
 
