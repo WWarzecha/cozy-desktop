@@ -27,7 +27,7 @@ const AppWindow = class {
         this.visibilityController = visibilityController(this.dom);
         this.topBar.addMinimizeFunctionality(this.visibilityController.makeInvisible);
         this.topBar.addClosingFunctionality(() => appManager.closeApp(this.id));
-        this.dom.onclick = this.moveToTop;
+        this.dom.onmousedown = this.moveToTop;
         this.moveToTop();
     };
     makeVisible = () => {
