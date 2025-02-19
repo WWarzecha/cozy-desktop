@@ -14,7 +14,6 @@ const toolbar = (() => {
         imgContainer.appendChild(tile);
         dom.appendChild(imgContainer);
         apps[id] = imgContainer;
-        console.log(`Added app: `, id, apps[id]);
         makeActive(id);
     }
     const closeApp = (id) => {
