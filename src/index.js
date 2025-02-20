@@ -18,3 +18,4 @@ const anotherdescic = desktopIcon(musicIcon, "music", () => {
 });
 document.body.appendChild(appDeskIc);
 document.body.appendChild(anotherdescic);
+anotherdescic.click();

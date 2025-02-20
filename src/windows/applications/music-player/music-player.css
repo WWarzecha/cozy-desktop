@@ -1,0 +1,9 @@
+
+
+.play-bar {
+    background-color: rgb(111, 196, 111);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+}
