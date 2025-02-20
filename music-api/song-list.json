@@ -1,9 +1,19 @@
 {
     "songs": [
         {
-            "title": "Hi",
-            "genre": "lofi",
-            "url": "undefined"
+            "title": "Natural Vibes",
+            "author": "Kevin MacLeod",
+            "url": "https://github.com/WWarzecha/cozy-desktop/blob/json-apis/music-api/lofi/Natural%20Vibes%20-%20Kevin%20MacLeod.mp3?raw=true"
+        },
+        {
+            "title": "Fresh Focus",
+            "author": "Kevin MacLeod",
+            "url": "https://github.com/WWarzecha/cozy-desktop/blob/json-apis/music-api/lofi/Fresh%20Focus%20-%20Kevin%20MacLeod.mp3?raw=true"
+        },
+        {
+            "title": "Study and Relax",
+            "author": "Kevin MacLeod",
+            "url": "https://github.com/WWarzecha/cozy-desktop/blob/json-apis/music-api/lofi/Study%20and%20Relax%20-%20Kevin%20MacLeod.mp3?raw=true"
         }
     ]
 }
