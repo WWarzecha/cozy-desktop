@@ -8,18 +8,19 @@ const createButtonTypeButton = (iconImg) => {
     return button;
 }
 const prevButtonOnclick = () => {};
-const playButtonOnclick = (audio, icon, iconPlaying, iconPaused) => {
-    if(audio.paused && audio.src){
-        audio.play();
+const playButtonOnclick = (play, pause, isPaused, icon, iconPlaying, iconPaused) => {
+    if(isPaused()){
+        play()
         icon.src = iconPaused;
     }
     else{
-        audio.pause();
+        pause();
         icon.src = iconPlaying;
     }
 };
 
-const createPlayBar = (audio) => {
+
+const createPlayBar = (play, pause, isPaused, repeat) => {
     const container = document.createElement("div");
     container.classList.add("play-bar");
 
@@ -29,13 +30,16 @@ const createPlayBar = (audio) => {
     const prevButton = createButtonTypeButton(require("../../../img/prev.svg"));
     const nextButton = createButtonTypeButton(require("../../../img/next.svg"));
     const repeatButton = createButtonTypeButton(require("../../../img/repeat.svg"));
-    playButton.onclick = () => playButtonOnclick(audio, playButton.firstChild, iconPlaying, iconPaused);
+    playButton.onclick = () => playButtonOnclick(play, pause, isPaused, playButton.firstChild, iconPlaying, iconPaused);
+    repeatButton.onclick = () => repeat();
     container.appendChild(prevButton);
     container.appendChild(playButton);
     container.appendChild(nextButton);
     container.appendChild(repeatButton);
-
-    return container;
+    const reset = () => {
+        playButton.firstChild.src = iconPlaying;
+    }
+    return {container, reset};
 };
 
 export default createPlayBar;
