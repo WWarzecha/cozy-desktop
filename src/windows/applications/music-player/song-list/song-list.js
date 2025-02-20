@@ -5,9 +5,9 @@ const createSongTile = (song, playSong) => {
     title.textContent = song.title;
     container.appendChild(title);
 
-    const genre = document.createElement("div");
-    genre.textContent = song.genre;
-    container.appendChild(genre);
+    const author = document.createElement("div");
+    author.textContent = song.author;
+    container.appendChild(author);
 
     container.onclick = () => playSong(song.url);
     return container;
@@ -24,13 +24,9 @@ async function createSongList(url, container, playSong){
         return;
     }
 
-    console.log("AMM data", data);
-
     data.songs.forEach(song => {
         container.appendChild(createSongTile(song, playSong));
     });
-    console.log("hello", container);
-    return container;
 };
 
 export default createSongList;

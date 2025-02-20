@@ -10,13 +10,12 @@ const musicPlayer = (appManager) => {
     content.textContent = "I'm amazing music player!";
     musicPlayerWindow.insertContent(content);
     const audioFile = new Audio();
-    // content.appendChild(audioFile);
-    // audioFile.play();
     audioFile.controls = true;
     const songListContainer = document.createElement("div");
     const playSong = (url) => audioFile.src = url;
-    const songList = createSongList(url, songListContainer, playSong);
+    createSongList(url, songListContainer, playSong);
     content.appendChild(songListContainer);
+    content.appendChild(audioFile);
     return musicPlayerWindow;
 };
 
