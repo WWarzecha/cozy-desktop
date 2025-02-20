@@ -1,12 +1,14 @@
 const audioManager = () => {
     const audio = new Audio();
-    // audio.controls = true;
     
-    const setSong = (url) => audio.src = url;
+    const setSong = (url) => {
+        audio.src = url;
+        audio.loop = false;
+    }
     const play = () => audio.play();
     const pause = () => audio.pause();
-    const repeat = () => audio.repeat();
-    const isPaused = () => audio.paused && audio.src
+    const repeat = () => audio.loop = !audio.loop;
+    const isPaused = () => audio.paused && audio.src;
     return {audio, setSong, play, pause, repeat, isPaused}
 };
 

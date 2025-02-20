@@ -24,6 +24,17 @@ const createPlayBar = (play, pause, isPaused, repeat) => {
     const container = document.createElement("div");
     container.classList.add("play-bar");
 
+    const credentials = document.createElement("div");
+    credentials.classList.add("play-bar-credentials");
+    const title = document.createElement("div");
+    title.classList.add("credentials-title");
+    const author = document.createElement("div");
+    author.classList.add("credentials-author");
+    credentials.appendChild(title);
+    credentials.appendChild(author);
+    container.appendChild(credentials);
+
+
     const iconPlaying = require("../../../img/play.svg");
     const iconPaused = require("../../../img/pause.svg")
     const playButton = createButtonTypeButton(iconPlaying);
@@ -38,8 +49,14 @@ const createPlayBar = (play, pause, isPaused, repeat) => {
     container.appendChild(repeatButton);
     const reset = () => {
         playButton.firstChild.src = iconPlaying;
+        title.textContent = "";
+        author.textContent = "";
     }
-    return {container, reset};
+    const update = (newTitle, newAuthor) => {
+        title.textContent = newTitle;
+        author.textContent = newAuthor;
+    }
+    return {container, reset, update};
 };
 
 export default createPlayBar;

@@ -9,14 +9,15 @@ const musicPlayer = (appManager) => {
     const icon = require("../../../img/music.svg");
     const musicPlayerWindow = new AppWindow(icon, appManager, 400, 300);
     const content = document.createElement("div");
-    // content.textContent = "I'm amazing music player!";
+    content.classList.add("music-app-content");
     musicPlayerWindow.insertContent(content);
     const audioManager = createAudioManager();
     const songListContainer = document.createElement("div");
     const controlBar = createControlBar(audioManager.play, audioManager.pause, audioManager.isPaused, audioManager.repeat)
-    createSongList(url, songListContainer, (songUrl) => {
+    createSongList(url, songListContainer, (songUrl, title, author) => {
         audioManager.setSong(songUrl);
         controlBar.reset();
+        controlBar.update(title, author);
     });
     content.appendChild(songListContainer);
     content.appendChild(audioManager.audio);

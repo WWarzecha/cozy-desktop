@@ -1,9 +1,44 @@
-
+.music-app-content {
+    /* overflow: scroll; */
+    height: 100%;
+    width: 100%;
+}
 
 .play-bar {
-    background-color: rgb(111, 196, 111);
+    background-color: rgb(118, 124, 118);
     position: absolute;
     bottom: 0;
+    height: 2rem;
     width: 100%;
     display: flex;
+    align-items: center;
+}
+
+.play-bar button {
+    background-color: inherit;
+    border: none;
+    padding: 0;
+    height: 100%;
+    flex-shrink: 0;
+}
+
+.play-bar > button > img {
+    height: 100%;
+}
+
+.play-bar-credentials {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.credentials-author,
+.credentials-title {
+    text-overflow: ellipsis;
+    text-wrap-mode: nowrap;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.credentials-author {
+    font-size: 0.8rem;
 }
