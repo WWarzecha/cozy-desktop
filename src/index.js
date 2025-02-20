@@ -4,7 +4,7 @@ import wallpaperLoader from "./wallpaper-loader";
 import AppWindow from "./windows/app-window";
 import appManager from "./app-manager/app-manager";
 import desktopIcon from "./desktop-icon/desktop-icon";
-import musicPlayer from "./windows/applications/music-player";
+import musicPlayer from "./windows/applications/music-player/music-player.js";
 
 wallpaperLoader.load()
 const icon = require("./img/anchor.svg");
