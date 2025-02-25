@@ -24,6 +24,11 @@
 
 .play-bar > button > img {
     height: 100%;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-bottom: 2px solid black;
+    border-right: 2px solid black;
+    margin: 1px;
 }
 
 .play-bar-credentials {

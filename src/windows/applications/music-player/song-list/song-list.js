@@ -1,4 +1,4 @@
-const createSongTile = (song, setSong) => {
+const createSongTile = (song, songId, setSong) => {
     const container = document.createElement("div");
 
     const title = document.createElement("div");
@@ -9,22 +9,13 @@ const createSongTile = (song, setSong) => {
     author.textContent = song.author;
     container.appendChild(author);
 
-    container.onclick = () => setSong(song.url, song.title, song.author);
+    container.onclick = () => setSong(songId);
     return container;
 }
 
-async function createSongList(url, container, setSong){
-    let data;
-    try {
-        const response = await fetch(url);
-        data = await response.json()
-    } catch (err) {
-        console.log(err);
-        return;
-    }
-
+async function createSongList(data, container, setSong){
     data.songs.forEach(song => {
-        container.appendChild(createSongTile(song, setSong));
+        container.appendChild(createSongTile(song, data.songs.indexOf(song), setSong));
     });
 };
 

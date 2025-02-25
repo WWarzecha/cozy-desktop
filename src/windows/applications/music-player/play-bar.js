@@ -20,7 +20,7 @@ const playButtonOnclick = (play, pause, isPaused, icon, iconPlaying, iconPaused)
 };
 
 
-const createPlayBar = (play, pause, isPaused, repeat) => {
+const createPlayBar = (currentSong, play, pause, isPaused, repeat, playNext, playPrev) => {
     const container = document.createElement("div");
     container.classList.add("play-bar");
 
@@ -41,7 +41,12 @@ const createPlayBar = (play, pause, isPaused, repeat) => {
     const prevButton = createButtonTypeButton(require("../../../img/prev.svg"));
     const nextButton = createButtonTypeButton(require("../../../img/next.svg"));
     const repeatButton = createButtonTypeButton(require("../../../img/repeat.svg"));
-    playButton.onclick = () => playButtonOnclick(play, pause, isPaused, playButton.firstChild, iconPlaying, iconPaused);
+    playButton.onclick = () => {
+        playButtonOnclick(play, pause, isPaused, playButton.firstChild, iconPlaying, iconPaused);
+        
+    }
+    nextButton.onclick = () => playNext();
+    prevButton.onclick = () => playPrev();
     repeatButton.onclick = () => repeat();
     container.appendChild(prevButton);
     container.appendChild(playButton);
@@ -52,9 +57,9 @@ const createPlayBar = (play, pause, isPaused, repeat) => {
         title.textContent = "";
         author.textContent = "";
     }
-    const update = (newTitle, newAuthor) => {
-        title.textContent = newTitle;
-        author.textContent = newAuthor;
+    const update = () => {
+        title.textContent = currentSong.title;
+        author.textContent = currentSong.author;
     }
     return {container, reset, update};
 };
